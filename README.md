@@ -10,7 +10,7 @@ AI/ML engineer who builds and evaluates ML systems end to end, from training to 
 
 **[VoltGuard](https://github.com/Prajwal7-2002/voltguard)**: Predicts thermal failure in EV motors from real 2 Hz telemetry (Paderborn PMSM dataset).
 - XGBoost chosen over LSTMs for low-latency CPU inference; SHAP explanations drive an automatic RPM-limiting response
-- FastAPI service, Streamlit dashboard, pytest suite, documented failure cases
+- FastAPI service, Next.js dashboard, pytest suite, documented failure cases
 
 **[Relvnt](https://github.com/Prajwal7-2002/relvnt)**: Predicts drops in Instagram reach before they happen.
 - TensorFlow LSTM over 14–90 days of reach data → health score, trend, and confidence
