@@ -20,9 +20,7 @@ AI/ML engineer who builds and evaluates ML systems end to end, from training to 
 ([backend](https://github.com/Prajwal7-2002/menmo-backend) · [frontend](https://github.com/Prajwal7-2002/menmo-frontend))
 - Hybrid retrieval on Pinecone (MiniLM embeddings + BM25, optional cross-encoder), scoped per user; falls back from your documents to web search to general knowledge, and labels which one it used
 - One LLM routing call (Groq, `gpt-oss-120b` with automatic fallback) decides intent, reply tone and answer length, and rewrites follow-ups like "what are its side effects?" into standalone queries
-- Finding I didn't expect: the original ranking rescaled scores within each result set, so the top chunk always looked like a perfect match even when nothing was relevant. Switching relevance decisions to raw cosine thresholds (0.45 / 0.30) fixed confident wrong answers; related vs unrelated text scores 0.74 vs 0.05
-- Also learned: a reasoning model given a 12-token budget returns nothing, because it spends the tokens thinking; a model retired by the provider silently broke every answer until I added fallback
-- Django REST API in Docker on Hugging Face Spaces, Next.js static site on Netlify; 54 offline backend tests and 37 end-to-end browser checks. Not yet tuned on a labelled evaluation set (next step)
+- Django REST API in Docker on Hugging Face Spaces, Next.js static site on Netlify. Not yet tuned on a labelled evaluation set (next step)
 
 
 ## 🛠️ Tech
