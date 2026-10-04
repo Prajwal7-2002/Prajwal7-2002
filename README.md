@@ -16,7 +16,14 @@ AI/ML engineer who builds and evaluates ML systems end to end, from training to 
 - TensorFlow LSTM over 14–90 days of reach data → health score, trend, and confidence
 - FastAPI backend + Next.js dashboard
 
-**[AI PR Reviewer](https://github.com/Prajwal7-2002/codex-pr-automation-demo)**: GitHub Action that sends PR diffs to Llama (via Groq) and posts a summary, missing tests, and non-blocking review comments on the PR.
+**[Menmo](https://menmo-app.netlify.app/)**: Chat with your own documents; every answer says where it came from and cites the page.
+([backend](https://github.com/Prajwal7-2002/menmo-backend) · [frontend](https://github.com/Prajwal7-2002/menmo-frontend))
+- Hybrid retrieval on Pinecone (MiniLM embeddings + BM25, optional cross-encoder), scoped per user; falls back from your documents to web search to general knowledge, and labels which one it used
+- One LLM routing call (Groq, `gpt-oss-120b` with automatic fallback) decides intent, reply tone and answer length, and rewrites follow-ups like "what are its side effects?" into standalone queries
+- Finding I didn't expect: the original ranking rescaled scores within each result set, so the top chunk always looked like a perfect match even when nothing was relevant. Switching relevance decisions to raw cosine thresholds (0.45 / 0.30) fixed confident wrong answers; related vs unrelated text scores 0.74 vs 0.05
+- Also learned: a reasoning model given a 12-token budget returns nothing, because it spends the tokens thinking; a model retired by the provider silently broke every answer until I added fallback
+- Django REST API in Docker on Hugging Face Spaces, Next.js static site on Netlify; 54 offline backend tests and 37 end-to-end browser checks. Not yet tuned on a labelled evaluation set (next step)
+
 
 ## 🛠️ Tech
 
