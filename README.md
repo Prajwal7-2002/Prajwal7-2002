@@ -43,6 +43,6 @@ LLM inference systems: continuous batching, paged KV-cache, speculative decoding
 
 ## 📫 Reach me
 
-- Portfolio: https://prajwal7-2002.github.io/portfolio/ · https://prajwal-pujari.vercel.app
+- Portfolio: https://prajwal-pujari.vercel.app
 - LinkedIn: https://www.linkedin.com/in/prajwal-pujari-mn9964
 - Email: prajwalpujari16@gmail.com
