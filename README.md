@@ -13,6 +13,13 @@ AI/ML engineer who builds and evaluates ML systems end to end, from training to 
 - Automated bottleneck diagnosis: classifies servers as Slot/Queue-Bound, Memory-Bandwidth-Bound, Compute-Bound, or Client-Bound
 - CI performance regression gate (`servebench check`) with 142 automated tests and cross-platform CI
 
+**[mini-infer](https://github.com/Prajwal7-2002/mini-infer)**: Minimal, high-performance continuous-batching LLM inference engine with Paged KV-cache, prefix caching, and speculative decoding for Qwen2.5 in pure PyTorch.
+- Paged KV memory manager: fixed 16-token physical block pool with virtual-to-physical block tables, eliminating over 60% VRAM waste from memory fragmentation
+- True continuous batching: single-token iteration-level scheduler dynamically interleaves prefill and decode passes with instant block reclamation
+- Radix prefix caching: hashes prompt token blocks to skip redundant prefill passes on shared system prompts, dropping TTFT by up to 80%
+- Speculative decoding: dual-model 0.5B draft proposer + 1.5B target parallel verifier with Leviathan rejection sampling; runs simultaneously in 3.81 GB VRAM on an RTX 3050 Laptop GPU with 43.6%–77.8% draft acceptance and zero distribution drift
+- OpenAI-compatible SSE streaming API (`POST /v1/chat/completions`) benchmarked live against real hardware with `servebench`
+
 **[EdgeSLM](https://github.com/Prajwal7-2002/EdgeSLM)**: Document security classifier: a LoRA fine-tune of SmolLM2-360M plus a regex policy layer, served locally with FastAPI.
 - Evaluated on a held-out, re-labelled set with 95% confidence intervals, not just the in-distribution test split
 - Findings I didn't expect: a TF-IDF baseline beat the fine-tune (91.7% vs 58.3%), and INT8 quantization gave a 1.8× CPU speedup but dropped accuracy to 25%. [Full report →](https://github.com/Prajwal7-2002/EdgeSLM/blob/main/REPORT.md)
@@ -23,10 +30,6 @@ AI/ML engineer who builds and evaluates ML systems end to end, from training to 
 - Hybrid retrieval on Pinecone (MiniLM embeddings + BM25, optional cross-encoder), scoped per user; falls back from your documents to web search to general knowledge, and labels which one it used
 - One LLM routing call (Groq, `gpt-oss-120b` with automatic fallback) decides intent, reply tone and answer length, and rewrites follow-ups into standalone queries
 - Django REST API in Docker on Hugging Face Spaces, Next.js static site on Netlify
-
-**[VoltGuard](https://github.com/Prajwal7-2002/voltguard)**: Predicts thermal failure in EV motors from real 2 Hz telemetry (Paderborn PMSM dataset).
-- XGBoost chosen over LSTMs for low-latency CPU inference; SHAP explanations drive an automatic RPM-limiting response
-- FastAPI service, Next.js dashboard, pytest suite, documented failure cases
 
 ## 🛠️ Tech
 
