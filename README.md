@@ -1,85 +1,50 @@
 # Hi, I'm Prajwal Pujari 👋
-### AI/ML Systems & Inference Engineer
 
-I build high-throughput **LLM inference runtimes**, **Paged KV-cache memory allocators**, and **hardware capacity benchmarking harnesses** from first principles.
+AI/ML engineer who builds and evaluates ML systems end to end, from training to a served API. I'm especially interested in **running models efficiently on small hardware**, and I like publishing results as they are, including the ones that didn't work.
 
----
+🌐 **Portfolio: [prajwal-pujari.vercel.app](https://prajwal-pujari.vercel.app)** · Available for freelance projects: WhatsApp AI assistants, document AI and RAG, custom agents, ML models.
 
-## ⚡ The LLM Systems Trilogy
+## 📌 Featured projects
 
-A three-part open-source engineering suite covering inference runtimes, hardware load-testing, and local air-gapped security:
+**[servebench](https://github.com/Prajwal7-2002/servebench)** ([PyPI](https://pypi.org/project/servebench/) · [docs](https://prajwal7-2002.github.io/servebench/)): Production load-testing and capacity profiler for any OpenAI-compatible LLM endpoint (Ollama, vLLM, llama.cpp, SGLang, LM Studio).
+- `pip install servebench` — auto-detects local servers and benchmarks capacity in 60 seconds (`servebench quick`)
+- Statistical rigor: sample-size-aware percentiles (honest p99 for $N \ge 100$), multi-trial repeats with 95% confidence intervals, and steady-state throughput windows
+- Hardware observability: live NVML GPU telemetry (power, VRAM, temp, tokens/Joule) and server Prometheus queue scraping on one timeline
+- Automated bottleneck diagnosis: classifies servers as Slot/Queue-Bound, Memory-Bandwidth-Bound, Compute-Bound, or Client-Bound
+- CI performance regression gate (`servebench check`) with 142 automated tests and cross-platform CI
 
-```
-                  ┌────────────────────────────────────────────────────────┐
-                  │                       servebench                       │
-                  │   Production Capacity & Concurrency Load-Tester        │
-                  │   (Hardware Roofline Bounds & NVML GPU Telemetry)      │
-                  └──────────────────────────┬─────────────────────────────┘
-                                             │  evaluates & load-tests
-                                             ▼
-┌───────────────────────────────────────────────────┐     ┌───────────────────────────────────────────────────┐
-│                    mini-infer                     │     │                      EdgeSLM                      │
-│        Continuous-Batching Inference Engine       │     │          Air-Gapped Edge DLP Classifier           │
-│  • Paged KV-Cache (16-tok blocks, <4% waste)      │     │  • LoRA Fine-tune on Qwen2.5-0.5B (88.8% contrast)│
-│  • Radix Tree Prefix Cache (28x TTFT speedup)     │     │  • 6.7x Dynamic Tensor Chunk Batching             │
-│  • Speculative Decoding (2.2x speedup, 0 drift)   │     │  • Tier-1 Cryptographic Secret Scanner (100% rec) │
-│  • Zero C++ toolchain / pure PyTorch wheels       │     │  • 392 MB ONNX INT4 edge build for consumer CPUs  │
-└───────────────────────────────────────────────────┘     └───────────────────────────────────────────────────┘
-```
+**[mini-infer](https://github.com/Prajwal7-2002/mini-infer)** ([PyPI](https://pypi.org/project/mini-infer/) · [docs](https://prajwal7-2002.github.io/mini-infer/)): Minimal, high-performance continuous-batching LLM inference engine with Paged KV-cache, prefix caching, and speculative decoding for Qwen2.5 in pure PyTorch.
+- `pip install mini-infer` — pure PyTorch, zero C++ build dependencies or CMake required
+- Paged KV memory manager: fixed 16-token physical block pool with virtual-to-physical block tables, dropping memory waste from $>60\%$ to $<3.8\%$
+- True continuous batching: single-token iteration-level scheduler dynamically interleaves prefill and decode passes with instant block reclamation
+- Radix prefix caching: hashes prompt token blocks to skip redundant prefill passes on shared system prompts, cutting TTFT from 340 ms to <15 ms
+- Speculative decoding: dual-model 0.5B draft proposer + 1.5B target parallel verifier with Leviathan rejection sampling; runs simultaneously in 3.81 GB VRAM on an RTX 3050 Laptop GPU with 2.2x speedup and zero distribution drift
+- OpenAI-compatible SSE streaming API (`POST /v1/chat/completions`)
 
----
+**[EdgeSLM](https://github.com/Prajwal7-2002/EdgeSLM)** ([docs](https://prajwal7-2002.github.io/EdgeSLM/)): Document security classifier and air-gapped DLP scanner running locally on consumer hardware.
+- Empirical generalization: LoRA fine-tune of Qwen2.5-0.5B outperforming bag-of-words baselines on contrastive vocabulary evaluation (88.8% vs 75.0%, McNemar $p = 0.043$)
+- Inference systems acceleration: Dynamic Tensor Chunk Batching scales multi-page document parsing throughput by 6.7x (1,497 ms → 223 ms on 8 chunks); Speculative Early-Exit provides 88.9% compute reduction
+- Deterministic security policy: Shannon entropy and structural regex filters catching 100% of cryptographic keys, API tokens, and credentials in <1 ms
+- Edge deployment: 392 MB ONNX 4-bit edge build classifying documents in ~0.5s on a standard laptop CPU with zero data leakage
 
-### 1. [mini-infer](https://github.com/Prajwal7-2002/mini-infer) 🚀
-**A minimal continuous-batching LLM inference engine with Paged KV-cache, radix prefix caching, and speculative decoding.**
-[![PyPI version](https://img.shields.io/pypi/v/mini-infer.svg)](https://pypi.org/project/mini-infer/)
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-teal.svg)](https://prajwal7-2002.github.io/mini-infer/)
-[![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/Prajwal7-2002/mini-infer/blob/main/LICENSE)
+**[Menmo](https://menmo-app.netlify.app/)** ([try it live →](https://menmo-app.netlify.app/)): Chat with your own documents; every answer says where it came from and cites the page.
+([backend](https://github.com/Prajwal7-2002/menmo-backend) · [frontend](https://github.com/Prajwal7-2002/menmo-frontend))
+- Hybrid retrieval on Pinecone (MiniLM embeddings + BM25, optional cross-encoder), scoped per user; falls back from your documents to web search to general knowledge, and labels which one it used
+- One LLM routing call (Groq, `gpt-oss-120b` with automatic fallback) decides intent, reply tone and answer length, and rewrites follow-ups into standalone queries
+- Django REST API in Docker on Hugging Face Spaces, Next.js static site on Netlify
 
-- **Paged KV-Cache**: Replaces contiguous VRAM allocation with 16-token physical blocks and virtual-to-physical block tables, dropping memory waste from $>60\%$ to $<3.8\%$.
-- **Radix Tree Prefix Cache**: Reuses prefill attention states across shared system prompts and multi-turn conversations, cutting TTFT from $340\text{ ms}$ to $<15\text{ ms}$ (28x speedup).
-- **Speculative Decoding**: Dual-model speculative execution pairing a 0.5B draft model with a 1.5B target verifier, delivering 2.2x generation speedup with mathematically zero output distribution drift.
-- **Zero Build Toolchain**: Production-grade algorithms in pure, testable Python/PyTorch—zero C++ compiler or CMake required.
-- **Install**: `pip install mini-infer`
+## 🛠️ Tech
 
----
+**ML / LLMs:** PyTorch, Hugging Face (Transformers, PEFT/LoRA), ONNX, scikit-learn, XGBoost, TensorFlow, RAG (Pinecone, BM25)
+**Serving / backend:** FastAPI, Django, Docker, asyncio/aiohttp, Ollama, llama.cpp, vLLM, NVML
+**Other:** Streamlit, Next.js, SQLAlchemy, GitHub Actions, PyPI
 
-### 2. [servebench](https://github.com/Prajwal7-2002/servebench) 📊
-**Production capacity profiler and load-testing harness for local LLM serving endpoints.**
-[![PyPI version](https://img.shields.io/pypi/v/servebench.svg)](https://pypi.org/project/servebench/)
-[![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-indigo.svg)](https://prajwal7-2002.github.io/servebench/)
-[![License: Apache 2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/Prajwal7-2002/servebench/blob/main/LICENSE)
+## 🌱 Building & Learning
 
-- **Statistical Rigor**: Measures TTFT, TPOT, ITL, and throughput across concurrency sweeps with sample-size-aware percentiles (honest p99 only when $N \ge 100$) and 95% bootstrap confidence intervals.
-- **Hardware Telemetry**: Synchronized NVML GPU telemetry tracking power draw, VRAM consumption, and energy efficiency (Tokens / Joule) to diagnose memory-bandwidth vs. compute-saturation roofline limits.
-- **Universal Engine Support**: Benchmark Ollama, vLLM, llama.cpp, mini-infer, or any OpenAI-compatible API.
-- **Automated CI Regression Gating**: Exit-code-based latency SLO enforcement for model deployment pipelines.
-- **Install**: `pip install servebench`
+LLM inference systems: continuous batching, paged KV-cache, speculative decoding, low-bit quantization, and serving benchmarks.
 
----
+## 📫 Reach me
 
-### 3. [EdgeSLM](https://github.com/Prajwal7-2002/EdgeSLM) 🛡️
-**Enterprise document sensitivity classifier and air-gapped DLP scanner running locally on consumer hardware.**
-[![GitHub Repo](https://img.shields.io/badge/repo-EdgeSLM-green.svg)](https://github.com/Prajwal7-2002/EdgeSLM)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Prajwal7-2002/EdgeSLM/blob/main/LICENSE)
-
-- **Empirical Generalization**: LoRA fine-tune of Qwen2.5-0.5B outperforming bag-of-words baselines on contrastive vocabulary evaluation (88.8% vs 75.0%, McNemar $p = 0.043$).
-- **Inference Systems Acceleration**: Dynamic Tensor Chunk Batching scales multi-page PDF/Word parsing throughput by **6.69x** ($1,497\text{ ms} \to 223\text{ ms}$ on 8 chunks); Speculative Early-Exit provides **88.9% compute reduction**.
-- **Deterministic Security Policy**: Shannon entropy ($H \ge 3.8$) and Tier-1 structural regex filters catching 100% of cryptographic keys, API tokens, and database credentials in $<1\text{ ms}$.
-- **Edge Deployment**: 392 MB ONNX 4-bit edge build classifying documents in $\approx 0.5\text{s}$ on a standard laptop CPU with zero data leakage.
-
----
-
-## 🛠️ Technical Competencies
-
-- **Inference Runtimes & Kernels**: PagedAttention, Continuous Batching, Speculative Decoding, Prefix Caching (Radix Tree), PyTorch SDPA, FlashAttention-style tiling.
-- **Quantization & Optimization**: ONNX Runtime, INT4/INT8 quantization, KV-cache quantization, TensorRT-LLM, PyTorch Profiler.
-- **Systems & Infrastructure**: Python (AsyncIO), C++, PyTorch, CUDA, FastAPI, NVML, Prometheus, Docker, Linux systems programming.
-- **Statistical Evaluation**: McNemar paired significance tests, Wilson score intervals, Bootstrap confidence intervals, Empirical capacity modeling.
-
----
-
-## 📬 Connect
-
-- **Portfolio**: [prajwalpujari.com](https://prajwal-pujari.vercel.app/)
-- **LinkedIn**: [linkedin.com/in/prajwal-pujari-mn9964](https://www.linkedin.com/in/prajwal-pujari-mn9964/)
-- **Email**: prajwalpujari16@gmail.com
+- Portfolio: https://prajwal-pujari.vercel.app
+- LinkedIn: https://www.linkedin.com/in/prajwal-pujari-mn9964
+- Email: prajwalpujari16@gmail.com
