@@ -21,7 +21,7 @@ AI/ML engineer who builds and evaluates ML systems end to end, from training to 
 - Speculative decoding: dual-model 0.5B draft proposer + 1.5B target parallel verifier with Leviathan rejection sampling; runs simultaneously in 3.81 GB VRAM on an RTX 3050 Laptop GPU with 2.2x speedup and zero distribution drift
 - OpenAI-compatible SSE streaming API (`POST /v1/chat/completions`)
 
-**[EdgeSLM](https://github.com/Prajwal7-2002/EdgeSLM)** ([docs](https://prajwal7-2002.github.io/EdgeSLM/)): Document security classifier and air-gapped DLP scanner running locally on consumer hardware.
+**[EdgeSLM](https://github.com/Prajwal7-2002/EdgeSLM)** ([HF Model](https://huggingface.co/prajwalpujari16/EdgeSLM-qwen0.5b-v3) · [docs](https://prajwal7-2002.github.io/EdgeSLM/)): Document security classifier and air-gapped DLP scanner running locally on consumer hardware.
 - Empirical generalization: LoRA fine-tune of Qwen2.5-0.5B outperforming bag-of-words baselines on contrastive vocabulary evaluation (88.8% vs 75.0%, McNemar $p = 0.043$)
 - Inference systems acceleration: Dynamic Tensor Chunk Batching scales multi-page document parsing throughput by 6.7x (1,497 ms → 223 ms on 8 chunks); Speculative Early-Exit provides 88.9% compute reduction
 - Deterministic security policy: Shannon entropy and structural regex filters catching 100% of cryptographic keys, API tokens, and credentials in <1 ms
