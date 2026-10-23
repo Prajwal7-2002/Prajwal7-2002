@@ -1,16 +1,31 @@
+<div align="center">
+
 # Prajwal Pujari
 
-**AI/ML Systems & Inference Engineer**  
-Building continuous-batching LLM inference engines, Paged KV-cache allocators, and capacity load-testing harnesses from first principles.
+### `AI/ML Systems & High-Performance Inference Engineer`
 
-[🌐 Portfolio](https://prajwal-pujari.vercel.app) &nbsp;·&nbsp; [📝 Engineering Notes](https://prajwal-pujari.vercel.app/blog/) &nbsp;·&nbsp; [💼 LinkedIn](https://www.linkedin.com/in/prajwal-pujari-mn9964) &nbsp;·&nbsp; [📫 Email](mailto:prajwalpujari16@gmail.com)
+Building continuous-batching LLM runtimes, Paged KV-cache memory allocators, and capacity load-testing harnesses from first principles.
+
+[![PyPI Profile](https://img.shields.io/badge/PyPI-Prajwal2002PI-3775A9?style=flat-square&logo=pypi&logoColor=white)](https://pypi.org/user/Prajwal2002PI/)
+[![Portfolio](https://img.shields.io/badge/Workstation-Live_Portfolio-06b6d4?style=flat-square&logo=vercel&logoColor=white)](https://prajwal-pujari.vercel.app)
+[![Engineering Notes](https://img.shields.io/badge/Notes-Deep_Dives-10b981?style=flat-square&logo=readme&logoColor=white)](https://prajwal-pujari.vercel.app/blog/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/prajwal-pujari-mn9964)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Direct_Chat-25D366?style=flat-square&logo=whatsapp&logoColor=white)](https://wa.me/916360012214?text=Hi%20Prajwal,%20I%20saw%20your%20GitHub%20profile.)
+[![Email](https://img.shields.io/badge/Email-prajwalpujari16@gmail.com-EA4335?style=flat-square&logo=gmail&logoColor=white)](mailto:prajwalpujari16@gmail.com)
+
+<br/>
+
+> **Hardware-Calibrated Runtimes · Zero CUDA OOMs · Zero-Cost Abstractions**  
+> Empirical roofline modeling, zero-copy physical block gathering, and verified cryptographic provenance.
+
+</div>
 
 ---
 
 ### ⚡ Quick Verification
 
 ```bash
-# Profile local server capacity (Ollama, vLLM, llama.cpp) in 60 seconds
+# Profile local server capacity (Ollama, vLLM, llama.cpp) with automated roofline tuning
 pip install servebench && servebench quick
 
 # Run continuous batching with paged KV-cache (pure PyTorch, zero C++/CUDA build steps)
@@ -24,7 +39,7 @@ pip install mini-infer
 | Flagship | Core Architecture | Empirical Silicon Numbers | Release & Provenance |
 |:---|:---|:---|:---:|
 | **[servebench](https://github.com/Prajwal7-2002/servebench)** | LLM serving capacity load-tester & auto-tuning harness (`servebench tune`). Multi-trial repeats with 95% CIs and synchronized NVML GPU telemetry. | • Honest p99 ($N \ge 100$)<br>• MBU roofline profiling<br>• Slot / Queue / Bandwidth diagnostics | [![PyPI](https://img.shields.io/pypi/v/servebench.svg?color=blue)](https://pypi.org/project/servebench/)<br>[![Sigstore](https://img.shields.io/badge/Sigstore-Verified_Provenance-success)](https://pypi.org/project/servebench/#security)<br>[![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://prajwal7-2002.github.io/servebench/) |
-| **[mini-infer](https://github.com/Prajwal7-2002/mini-infer)** | Lightweight continuous-batching LLM runtime in pure PyTorch. PagedAttention, INT8 KV-cache, AST repo-map context injection, and speculative verifier. | • **27.0 tok/s** at c=4 (+130.8%)<br>• **INT8 KV-cache** (50% save)<br>• **2.04 Tok/Joule** (13.2 W) | [![PyPI](https://img.shields.io/pypi/v/mini-infer.svg?color=blue)](https://pypi.org/project/mini-infer/)<br>[![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://prajwal7-2002.github.io/mini-infer/) |
+| **[mini-infer](https://github.com/Prajwal7-2002/mini-infer)** | Lightweight continuous-batching LLM runtime in pure PyTorch for Qwen2.5. Iteration-level dynamic scheduler, Paged KV-cache virtual memory, radix prefix caching, and Leviathan speculative verifier. | • **27.0 tok/s** at c=4 (+130.8%)<br>• **2.04 Tok/Joule** (13.2 W)<br>• **<3.8%** KV-cache waste | [![PyPI](https://img.shields.io/pypi/v/mini-infer.svg?color=blue)](https://pypi.org/project/mini-infer/)<br>[![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://prajwal7-2002.github.io/mini-infer/) |
 | **[EdgeSLM](https://github.com/Prajwal7-2002/EdgeSLM)** | Air-gapped document sensitivity classifier and Tier-1 DLP secret scanner for edge CPU inference. | • **6.7×** dynamic chunk batching<br>• **88.9%** early-exit compute save<br>• **100%** secret recall (`real-bench-100`) | [![HF Model](https://img.shields.io/badge/🤗_HuggingFace-EdgeSLM--0.5b--v3-yellow)](https://huggingface.co/prajwalpujari16/EdgeSLM-qwen0.5b-v3)<br>[![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://prajwal7-2002.github.io/EdgeSLM/) |
 | **[Menmo](https://menmo-app.netlify.app/)** | Hybrid retrieval RAG service (Pinecone MiniLM + BM25) with dynamic fallback and page-level source citations. | • Scoped multi-tenant search<br>• Zero-hallucination routing<br>• Django + Next.js decoupled | [Live App →](https://menmo-app.netlify.app/)<br>[Backend](https://github.com/Prajwal7-2002/menmo-backend) · [Frontend](https://github.com/Prajwal7-2002/menmo-frontend) |
 
@@ -54,18 +69,22 @@ I believe that engineering credibility is built by documenting trade-offs, archi
 
 ---
 
-### 🛠️ Technical Competencies
+### 🛠️ Technical Competencies & Stack
 
-* **Inference Internals:** Paged KV-cache allocators, continuous batching schedulers, Leviathan speculative verification, radix prefix caching, roofline MBU modeling.
-* **Runtimes & Frameworks:** Pure PyTorch (SDPA, custom tensor gathers), Hugging Face (Transformers, PEFT/LoRA), ONNX Runtime INT4, NVML telemetry.
-* **Serving & Infrastructure:** FastAPI, asyncio/aiohttp, SSE streaming, Ollama, vLLM, llama.cpp, Prometheus, Docker, GitHub Actions cross-platform matrix.
-* **Security & Packaging:** PyPI Trusted Publishers, Sigstore cryptographic provenance attestation, air-gapped DLP regex + entropy filters.
+```
+Runtime Systems   : Paged KV-Cache Allocators · Continuous Batching · Radix Prefix Caching · Speculative Decoding
+Silicon Profiling : Roofline MBU Modeling · NVML Telemetry · Saturation Knee Detection · TTFT / ITL / TPOT Analysis
+Core Stack        : PyTorch (SDPA, Tensor Gathers) · Python 3.10+ · CUDA / NVML · ONNX Runtime INT4 · Hugging Face
+Serving & Infra   : FastAPI · Asyncio / Aiohttp · SSE Streaming · vLLM · Ollama · Docker · GitHub Actions CI/CD
+Security & Trust  : PyPI Trusted Publishers (OIDC) · Sigstore Cryptographic Attestation · Zero-Secret Airgap DLP
+```
 
 ---
 
 ### 📫 Connect & Collaborate
 
 * **Portfolio:** [prajwal-pujari.vercel.app](https://prajwal-pujari.vercel.app)
-* **Email:** [prajwalpujari16@gmail.com](mailto:prajwalpujari16@gmail.com)
+* **PyPI Packages:** [pypi.org/user/Prajwal2002PI](https://pypi.org/user/Prajwal2002PI/)
 * **LinkedIn:** [linkedin.com/in/prajwal-pujari-mn9964](https://www.linkedin.com/in/prajwal-pujari-mn9964)
-* **WhatsApp:** [+91 6360012214](https://wa.me/916360012214)
+* **Email:** [prajwalpujari16@gmail.com](mailto:prajwalpujari16@gmail.com)
+* **WhatsApp:** [Direct Chat (WhatsApp ↗)](https://wa.me/916360012214?text=Hi%20Prajwal,%20I%20saw%20your%20GitHub%20profile.)
