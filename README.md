@@ -28,7 +28,7 @@ Building continuous-batching LLM runtimes, Paged KV-cache memory allocators, and
 # Profile local server capacity (Ollama, vLLM, llama.cpp) with automated roofline tuning
 pip install servebench && servebench quick
 
-# Pre-flight analytical capacity planning, multi-GPU matrix & cloud $/1M tokens (zero GPU needed)
+# Pre-flight analytical capacity planning, multi-GPU matrix & cloud \$/1M tokens (zero GPU needed)
 pip install infersize && infersize compare --model qwen2.5-7b --quant fp16
 
 # Run continuous batching with paged KV-cache (pure PyTorch, zero C++/CUDA build steps)
@@ -38,7 +38,7 @@ pip install mini-infer
 pip install sched-sim && sched-sim run --scheduler cache-aware --trace sharegpt
 
 # Quantization engine & Pareto evaluation benchmark (INT4/INT8/BitNet 1.58b)
-pip install quantbench-engine && quantbench pack-inspect --scheme int4
+pip install quantbench-engine && quantbench pack-inspect --format int4
 ```
 
 ---
@@ -51,7 +51,7 @@ pip install quantbench-engine && quantbench pack-inspect --scheme int4
 | **[mini-infer](https://github.com/Prajwal7-2002/mini-infer)** | Lightweight continuous-batching LLM runtime in pure PyTorch for Qwen2.5. Iteration-level dynamic scheduler, Paged KV-cache virtual memory, radix prefix caching, and Leviathan speculative verifier. | • **27.0 tok/s** at c=4 (+130.8%)<br>• **2.04 Tok/Joule** (13.2 W)<br>• **<3.8%** KV-cache waste | [![PyPI](https://img.shields.io/pypi/v/mini-infer.svg?color=blue)](https://pypi.org/project/mini-infer/)<br>[![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://prajwal7-2002.github.io/mini-infer/) |
 | **[sched-sim](https://github.com/Prajwal7-2002/sched-sim)** | Discrete-event LLM serving simulator with first-principles roofline latency models, SGLang-style Radix prefix caching, and Perfetto trace visualizer. | • **0.87s** full sweep<br>• **87%** test coverage<br>• **0-copy** prefix hits | [![PyPI](https://img.shields.io/pypi/v/sched-sim.svg?color=blue)](https://pypi.org/project/sched-sim/)<br>[![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://prajwal7-2002.github.io/sched-sim/) |
 | **[quantbench](https://github.com/Prajwal7-2002/quantbench)** | Unified from-scratch quantization engine (INT4/INT8/FP8/BitNet 1.58b), vectorized sub-byte packing, Ampere 2:4 structured sparsity, dynamic `QuantLinear` layers, and dual-metric Pareto evaluation benchmark. | • **3.5x** INT4 / **7.5x** BitNet<br>• **47/47** tests pass (95%)<br>• **0-copy** hook dequant | [![PyPI](https://img.shields.io/pypi/v/quantbench-engine.svg?color=blue)](https://pypi.org/project/quantbench-engine/)<br>[![GitHub](https://img.shields.io/badge/GitHub-quantbench-black?logo=github)](https://github.com/Prajwal7-2002/quantbench) |
-| **[infersize](https://github.com/Prajwal7-2002/infersize)** | Pre-flight analytical performance modeling, multi-GPU comparison matrix, and cloud TCO ($/1M tokens) capacity planner. Zero GPU required, dynamic Hugging Face Hub ingestion, MoE active routing, and Architecture RFC export. | • **<10 ms** CPU solve<br>• **36/36** tests pass (95%)<br>• **Zero GPU** required | [![PyPI](https://img.shields.io/pypi/v/infersize.svg?color=blue)](https://pypi.org/project/infersize/)<br>[![CI](https://github.com/Prajwal7-2002/infersize/actions/workflows/ci.yml/badge.svg)](https://github.com/Prajwal7-2002/infersize/actions) |
+| **[infersize](https://github.com/Prajwal7-2002/infersize)** | Pre-flight analytical performance modeling, multi-GPU comparison matrix, and cloud TCO (\$/1M tokens) capacity planner. Zero GPU required, dynamic Hugging Face Hub ingestion, MoE active routing, and Architecture RFC export. | • **<10 ms** CPU solve<br>• **45/45** tests pass (95%)<br>• **Zero GPU** required | [![PyPI](https://img.shields.io/pypi/v/infersize.svg?color=blue)](https://pypi.org/project/infersize/)<br>[![CI](https://github.com/Prajwal7-2002/infersize/actions/workflows/ci.yml/badge.svg)](https://github.com/Prajwal7-2002/infersize/actions) |
 | **[EdgeSLM](https://github.com/Prajwal7-2002/EdgeSLM)** | Air-gapped document sensitivity classifier and Tier-1 DLP secret scanner for edge CPU inference. | • **20+** HF downloads (v3)<br>• **6.7×** dynamic batching<br>• **100%** secret recall | [![HF Model](https://img.shields.io/badge/🤗_HuggingFace-EdgeSLM--0.5b--v3-yellow)](https://huggingface.co/prajwalpujari16/EdgeSLM-qwen0.5b-v3)<br>[![HF Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fhuggingface.co%2Fapi%2Fmodels%2Fprajwalpujari16%2FEdgeSLM-qwen0.5b-v3&query=%24.downloads&label=%F0%9F%A4%97%20Downloads&color=blue)](https://huggingface.co/prajwalpujari16/EdgeSLM-qwen0.5b-v3)<br>[![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://prajwal7-2002.github.io/EdgeSLM/) |
 | **[Menmo](https://menmo-app.netlify.app/)** | Hybrid retrieval RAG service (Pinecone MiniLM + BM25) with dynamic fallback and page-level source citations. | • Scoped multi-tenant search<br>• Zero-hallucination routing<br>• Django + Next.js decoupled | [Live App →](https://menmo-app.netlify.app/)<br>[Backend](https://github.com/Prajwal7-2002/menmo-backend) · [Frontend](https://github.com/Prajwal7-2002/menmo-frontend) |
 
