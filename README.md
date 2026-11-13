@@ -112,6 +112,8 @@ I believe that engineering credibility is built by documenting trade-offs, archi
 
 ### 📝 Engineering Notes & Deep Dives
 
+* **[The Hidden Token Tax: Why Multilingual LLM APIs Cost Up to 4.5× More](https://prajwal-pujari.vercel.app/blog/posts/token-inflation-multilingual-tax.html)** (`2026-11-13`)  
+  *Why non-English prompts face extreme Byte-Pair Encoding fragmentation, how 4-space Python and JSON tool schemas add 2.6× token bloat, and how modern tokenizers (Qwen, Tekken, DeepSeek) rebalance API economics across 52 languages.*
 * **[Roofline Benchmarking & Auto-Tuning LLM Serving: How We Pushed Pure PyTorch to 27 tok/s](https://prajwal-pujari.vercel.app/blog/posts/roofline-serving-benchmarks.html)** (`2026-10-23`)  
   *Measuring empirical Memory Bandwidth Utilization (MBU), saturation knees, and multi-stream batching to eliminate TTFT degradation on consumer laptop GPUs.*
 * **[Why Naive KV-Caches Waste >60% VRAM (And How Paged Memory Fixes It)](https://prajwal-pujari.vercel.app/blog/posts/paged-kv-cache-vram.html)** (`2026-10-22`)  
