@@ -94,6 +94,18 @@ pip install streamspec && streamspec demo
 
 ---
 
+### 🧩 Upstream Contributions (Merged)
+
+Production bugfixes and core architectural patches merged into external LLM inference ecosystems:
+
+* **[ModelCloud/GPTQModel](https://github.com/ModelCloud/GPTQModel)**:
+  * [**#4145**](https://github.com/ModelCloud/GPTQModel/pull/4145) — Fixed Bloom AWQ module forward replay inputs (`residual`, `alibi`, `mask`) and reject unsafe norm folds.
+  * [**#4142**](https://github.com/ModelCloud/GPTQModel/pull/4142) — Scoped deterministic PyTorch algorithms in GPU weighted k-means (VPTQ).
+  * [**#4096**](https://github.com/ModelCloud/GPTQModel/pull/4096) — Repaired `hf_repack_layer` and `hf_pack_layer` GPTQ v1 qzero bit-packing alignment.
+  * [**#4029**](https://github.com/ModelCloud/GPTQModel/pull/4029) — Standardized multi-EOS stop lists, tokenizer output unpacking, and OpenAI/vLLM request parsing.
+
+---
+
 ### 🔬 Engineering Approach & Systems Insights
 
 I believe that engineering credibility is built by documenting trade-offs, architectural failures, and hardware bounds alongside performance gains:
