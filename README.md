@@ -94,23 +94,17 @@ pip install streamspec && streamspec demo
 
 ---
 
-### 🧩 Upstream Contributions
+### 🧩 Upstream Contributions (Merged)
 
 Production bugfixes and core architectural patches merged into leading LLM inference & quantization runtimes:
 
 * **[ModelCloud/GPTQModel](https://github.com/ModelCloud/GPTQModel)**:
-  * [**#5175**](https://github.com/ModelCloud/GPTQModel/pull/5175) `[Merged]` — Bounded token-row activation capture and streaming reservoir for AWQ & ParoQuant, eliminating linear host RAM explosion during calibration ([#5137](https://github.com/ModelCloud/GPTQModel/issues/5137)).
-  * [**#4399**](https://github.com/ModelCloud/GPTQModel/pull/4399) `[Merged]` — Omitted forced `offload_state_dict` to prevent unintended `TMPDIR` disk copies during model loading ([#4385](https://github.com/ModelCloud/GPTQModel/issues/4385)).
-  * [**#4145**](https://github.com/ModelCloud/GPTQModel/pull/4145) `[Merged]` — Preserved Bloom AWQ module forward replay inputs (`residual`, `alibi`, `mask`) and reject unsafe norm folds.
-  * [**#4142**](https://github.com/ModelCloud/GPTQModel/pull/4142) `[Merged]` — Scoped deterministic PyTorch algorithms in GPU weighted k-means (VPTQ).
-  * [**#4096**](https://github.com/ModelCloud/GPTQModel/pull/4096) `[Merged]` — Repaired `hf_repack_layer` and `hf_pack_layer` GPTQ v1 qzero bit-packing alignment.
-  * [**#4029**](https://github.com/ModelCloud/GPTQModel/pull/4029) `[Merged]` — Standardized multi-EOS stop lists, tokenizer output unpacking, and OpenAI/vLLM request parsing.
-
-* **[flashinfer-ai/flashinfer](https://github.com/flashinfer-ai/flashinfer)**:
-  * [**#9502**](https://github.com/flashinfer-ai/flashinfer/pull/9502) `[Approved ✓]` — Guarded int32 range validation under `FLASHINFER_CAKE_GDN_VALIDATE_SLOTS` in prefill metadata narrowing cast, preventing silent negative integer wraps in GPU kernel indexing ([#9497](https://github.com/flashinfer-ai/flashinfer/issues/9497)).
-
-* **[intel/auto-round](https://github.com/intel/auto-round)**:
-  * [**#2628**](https://github.com/intel/auto-round/pull/2628) `[Verified (LGTM) ✓]` — Support multi-config dataset specs, safe sample count clamping, and recovery from streaming PyArrow schema cast errors across heterogeneous calibration datasets ([#2616](https://github.com/intel/auto-round/issues/2616)).
+  * [**#5175**](https://github.com/ModelCloud/GPTQModel/pull/5175) — Bounded token-row activation capture and streaming reservoir for AWQ & ParoQuant, eliminating linear host RAM explosion during calibration ([#5137](https://github.com/ModelCloud/GPTQModel/issues/5137)).
+  * [**#4399**](https://github.com/ModelCloud/GPTQModel/pull/4399) — Omitted forced `offload_state_dict` to prevent unintended `TMPDIR` disk copies during model loading ([#4385](https://github.com/ModelCloud/GPTQModel/issues/4385)).
+  * [**#4145**](https://github.com/ModelCloud/GPTQModel/pull/4145) — Preserved Bloom AWQ module forward replay inputs (`residual`, `alibi`, `mask`) and reject unsafe norm folds.
+  * [**#4142**](https://github.com/ModelCloud/GPTQModel/pull/4142) — Scoped deterministic PyTorch algorithms in GPU weighted k-means (VPTQ).
+  * [**#4096**](https://github.com/ModelCloud/GPTQModel/pull/4096) — Repaired `hf_repack_layer` and `hf_pack_layer` GPTQ v1 qzero bit-packing alignment.
+  * [**#4029**](https://github.com/ModelCloud/GPTQModel/pull/4029) — Standardized multi-EOS stop lists, tokenizer output unpacking, and OpenAI/vLLM request parsing.
 
 ---
 
