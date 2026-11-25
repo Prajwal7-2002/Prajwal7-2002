@@ -96,7 +96,7 @@ pip install streamspec && streamspec demo
 
 ### 🧩 Upstream Contributions (Merged)
 
-Production bugfixes and core architectural patches merged into leading LLM inference & quantization runtimes:
+Production bugfixes and architectural patches merged into leading LLM SDKs, inference engines, and quantization runtimes:
 
 * **[ModelCloud/GPTQModel](https://github.com/ModelCloud/GPTQModel)**:
   * [**#5175**](https://github.com/ModelCloud/GPTQModel/pull/5175) — Bounded token-row activation capture and streaming reservoir for AWQ & ParoQuant, eliminating linear host RAM explosion during calibration ([#5137](https://github.com/ModelCloud/GPTQModel/issues/5137)).
@@ -105,6 +105,8 @@ Production bugfixes and core architectural patches merged into leading LLM infer
   * [**#4142**](https://github.com/ModelCloud/GPTQModel/pull/4142) — Scoped deterministic PyTorch algorithms in GPU weighted k-means (VPTQ).
   * [**#4096**](https://github.com/ModelCloud/GPTQModel/pull/4096) — Repaired `hf_repack_layer` and `hf_pack_layer` GPTQ v1 qzero bit-packing alignment.
   * [**#4029**](https://github.com/ModelCloud/GPTQModel/pull/4029) — Standardized multi-EOS stop lists, tokenizer output unpacking, and OpenAI/vLLM request parsing.
+* **[mozilla-ai/any-llm](https://github.com/mozilla-ai/any-llm)**:
+  * [**#1650**](https://github.com/mozilla-ai/any-llm/pull/1650) — Replaced `@abstractmethod` completion/embedding converter stubs on `AnyLLM` with non-abstract `NotImplementedError` defaults, eliminating boilerplate stubs across capability-restricted providers ([#1486](https://github.com/mozilla-ai/any-llm/issues/1486)).
 
 ---
 
