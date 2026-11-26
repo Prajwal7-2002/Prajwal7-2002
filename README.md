@@ -33,7 +33,7 @@ All studios are deployed as permanent, zero-cold-start static web applications o
 | **`streamspec`** | [**prajwalpujari16/streamspec**](https://huggingface.co/spaces/prajwalpujari16/streamspec) | **Speculative Layer-Streaming Studio**: Live memory bus Gantt simulator (AirLLM 1-token crawl vs StreamSpec batched GEMM), double-buffered prefetch pipeline inspector, and Williams Roofline capacity CAD. |
 | **`token-atlas`** | [**prajwalpujari16/token-atlas**](https://huggingface.co/spaces/prajwalpujari16/token-atlas) | **Multilingual Token Inflation Tax Explorer**: 52-language FLORES-200 inflation matrix & token fertility multipliers (published benchmark: GPT-4 and GPT-4o), multi-domain benchmarks, and cost router. |
 | **`infersize`** | [**prajwalpujari16/infersize**](https://huggingface.co/spaces/prajwalpujari16/infersize) | **LLM Capacity Planning CAD**: Pre-flight analytical VRAM sizing, multi-GPU comparison matrix, speculative decoding latency sizer, and cloud TCO ($/1M tokens) estimator. |
-| **`quantbench`** | [**prajwalpujari16/quantbench**](https://huggingface.co/spaces/prajwalpujari16/quantbench) | **Sub-Byte Quantization Studio**: SQNR-vs-compression Pareto frontier explorer, live BitNet 1.58b / INT4 / 2:4 sparsity bit-packing registers, and Transformer layer sensitivity simulator. |
+| **`quantbench`** | [**prajwalpujari16/quantbench**](https://huggingface.co/spaces/prajwalpujari16/quantbench) | **Sub-Byte Quantization Studio**: measured quality-vs-compression Pareto frontier (Qwen2.5-0.5B, RTX 3050), live BitNet 1.58b / INT4 / 2:4 sparsity bit-packing registers, and measured per-layer sensitivity. |
 | **`sched-sim`** | [**prajwalpujari16/sched-sim**](https://huggingface.co/spaces/prajwalpujari16/sched-sim) | **Discrete-Event Serving Scheduler**: Animated Gantt player demonstrating Head-of-Line prefill blocking vs. Sarathi Chunked Prefill ($C=512$), SJF, and Disaggregated serving. |
 | **`mini-infer`** | [**prajwalpujari16/mini-infer**](https://huggingface.co/spaces/prajwalpujari16/mini-infer) | **PagedAttention GPU Memory Pool**: Interactive virtual block table allocator, copy-on-write radix prefix caching simulator, and speculative decoding acceptance verifier. |
 | **`runsonmine`** | [**prajwalpujari16/runsonmine**](https://huggingface.co/spaces/prajwalpujari16/runsonmine) | **Empirical Silicon LLM Benchmark Registry**: 24 physical measurements on Dual Tesla T4 & RTX 3050 Laptop, concurrency scaling curves ($c=1 \to 8$), and 1-click PR submission portal. |
@@ -45,8 +45,8 @@ All studios are deployed as permanent, zero-cold-start static web applications o
 | Dataset | Hub Link | Verified Contents |
 |:---|:---|:---|
 | **`token-atlas-benchmark`** | [prajwalpujari16/token-atlas-benchmark](https://huggingface.co/datasets/prajwalpujari16/token-atlas-benchmark) | 52-language FLORES-200 benchmark & token inflation metrics for GPT-4 and GPT-4o. |
-| **`quantbench-pareto`** | [prajwalpujari16/quantbench-pareto](https://huggingface.co/datasets/prajwalpujari16/quantbench-pareto) | 12-configuration Pareto frontier + 28 layer sensitivity rows. **Illustrative values** (generated on a small synthetic model); real-model results are in the repo's DEVLOG. |
-| **`llm-serving-traces`** | [prajwalpujari16/llm-serving-traces](https://huggingface.co/datasets/prajwalpujari16/llm-serving-traces) | 165 real serving traces (LMSYS/RAG/CodeGen) + 15 scheduler comparisons + 12 silicon validation rows. |
+| **`quantbench-pareto`** | [prajwalpujari16/quantbench-pareto](https://huggingface.co/datasets/prajwalpujari16/quantbench-pareto) | 7 configurations measured on Qwen2.5-0.5B (RTX 3050): SQNR, size, VRAM, perplexity and decode speed, plus 28 per-layer sensitivity rows. |
+| **`llm-serving-traces`** | [prajwalpujari16/llm-serving-traces](https://huggingface.co/datasets/prajwalpujari16/llm-serving-traces) | 165 workload traces (synthetic + hand-written samples), 15 simulated scheduler comparisons, and 15 real-vs-simulated validation rows (RTX 3050). |
 | **`consumer-silicon-benchmarks`** | [prajwalpujari16/consumer-silicon-benchmarks](https://huggingface.co/datasets/prajwalpujari16/consumer-silicon-benchmarks) | 24 empirical data points on Dual Tesla T4 & RTX 3050 Laptop + 6-step concurrency curve. |
 
 ---
@@ -64,7 +64,7 @@ pip install infersize && infersize compare --model qwen2.5-7b --quant fp16
 pip install mini-infer
 
 # 4. Discrete-event serving simulator with Radix prefix caching & chunked prefill
-pip install sched-sim && sched-sim run --scheduler chunked --chunk-budget 512
+pip install sched-sim && sched-sim run --scheduler chunked --token-budget 512
 
 # 5. From-scratch quantization engine & Pareto evaluation benchmark (INT4/INT8/FP8/BitNet 1.58b)
 pip install quantbench-engine && quantbench pack-inspect --format int4
@@ -115,11 +115,11 @@ Production bugfixes and architectural patches merged into leading LLM SDKs, infe
 I believe that engineering credibility is built by documenting trade-offs, architectural failures, and hardware bounds alongside performance gains:
 
 * **Naive KV-Allocation Fails Under Dynamic Lengths**:  
-  Pre-allocating contiguous buffers for a 2,048-token worst case reserves the full 1,280 MB per stream even for a 48-token reply. Fixed 16-token physical block pools with virtual-to-physical block tables in pure PyTorch allocate memory as sequences grow: about **30 MB** for that reply (calculated from tensor sizes).
+  Pre-allocating contiguous buffers for a 2,048-token worst case reserves **24 MB** of KV cache per request on Qwen2.5-0.5B (bf16), even for a 48-token reply. Fixed 16-token physical block pools with virtual-to-physical block tables in pure PyTorch allocate memory as sequences grow: about **0.56 MB** for that reply, 97.7% less (calculated from tensor sizes).
 * **Unbatched Iteration Bottlenecks on DRAM Memory Bandwidth**:  
   Stepping concurrent sequences through serial model calls forced the GPU to stream model weights from DRAM 4 separate times per step (capping decode at 11.7 tok/s on an RTX 3050). Switching to zero-copy physical block gathering streams weights **exactly once per step across all sequences**, jumping throughput to **27.0 tok/s (+130.8%)** and delivering **2.04 Tok/Joule**.
 * **Head-of-Line Prefill Starvation Under Continuous Batching**:  
-  In standard FCFS continuous batching, a 2,048-token prompt prefill monopolizes the compute pipeline for >120ms, causing active decoding streams to stutter with severe TPOT latency spikes. In `sched-sim` simulations, Sarathi-style **Chunked Prefill ($C=512$)** interleaves prompt chunks with decodes and keeps TPOT under 40ms without hurting throughput (simulated, not yet validated on silicon).
+  In FCFS continuous batching, a long prompt's prefill takes over whole steps, so active decoding streams stall. In a `sched-sim` simulation (A100 preset, RAG workload), Sarathi-style **Chunked Prefill ($C=512$)** cut worst-case decode latency (TPOT p99) from **131.7 ms to 51.7 ms** versus FCFS, while the median rose from 39.2 to 49.6 ms: smoother decoding, not faster decoding (simulated, not measured).
 * **Memory Savings Are Not Speed Savings Without Fused Kernels**:  
   On Qwen2.5-0.5B (RTX 3050), `quantbench` INT4 shrank the model from **958 MB to 461 MB** but raised perplexity **+21%** and ran at **0.18x** bf16 speed, because the reference runtime dequantizes full weights every forward pass. Post-hoc ternary quantization destroyed the model entirely. Bandwidth savings need fused dequant-matmul kernels.
 * **No Cherry-Picked Latency Metrics**:  
